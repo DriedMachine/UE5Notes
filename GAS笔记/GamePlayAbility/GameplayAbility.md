@@ -85,3 +85,32 @@ Snapshotting(Source)
 + Capturing doesn't run PreAttributeChange; any Clamping done there must be done again
 + Only executed on the Server from Gameplay Abilities with Local Predicted, Server Initiated, and Server only Net
   Execution Policies
+
+## Init Ability Actor Info
+
+AbilitySystemComponent是由Enemy Charactre创建的
+AbilitySystemComponent是有PlayerState创建的
+
+|            Class            | Owner Actor | Avatar Actor |
+|:---------------------------:|:-----------:|:------------:|
+|       Enemy Character       |    Pawn     |     Pawn     |
+| Player Controlled Character | PlayerState |     Pawn     |
+
+ASC Live on the Pawn
+
+|   Server    |        Client         |
+|:-----------:|:---------------------:|
+| PossessedBy | AckownledgePossession |
+
+ASC Live on the PlayerState
+| Class | Owner Actor | Avatar Actor |
+|:---------------------------:|:-----------:|:------------:|
+| Enemy Character | Pawn | Pawn |
+| Player Controlled Character | PlayerState | Pawn |
+
+| ReplicationMode | Use Case  |                                               描述                                                |
+|:---------------:|:---------:|:-----------------------------------------------------------------------------------------------:|
+|      Full       |    单人     |                                    Gameplay Effects复制到所有客户端                                     |
+|      Mixed      | 多人游戏，玩家控制 |                   Gameplay Effects只复制到拥有的客户端。Game Cues和Gameplay Tags复制到所有客户端                    |
+|     Minimal     | 多人游戏，AI控制 | Gameplay Effects<mark style="background: #FF5582A6;">不会</mark>只复制到拥有的客户端。Game Cues和游戏标签复制到所有客户端 |
+
